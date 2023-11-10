@@ -7,8 +7,6 @@ const Home: FC<ScreenProps<'Home'>> = () => {
   const [width, setWidth] = useState('');
   const [height, setHeight] = useState('');
 
-  const styles = getHomeStyles();
-
   const handleSubmit = () => {};
 
   return (
@@ -43,19 +41,17 @@ const Home: FC<ScreenProps<'Home'>> = () => {
 
 export default Home;
 
-const getHomeStyles = () => {
-  return StyleSheet.create({
-    container: {
-      flex: 1,
-    },
-    innerContainer: {
-      flex: 1,
-      gap: 40,
-      paddingTop: '30%',
-      paddingHorizontal: 50,
-    },
-    button: {
-      paddingVertical: 10,
-    },
-  });
-};
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  innerContainer: {
+    flex: 1,
+    gap: 40,
+    paddingTop: '30%',
+    paddingHorizontal: 50,
+  },
+  button: {
+    paddingVertical: 10,
+  },
+});
