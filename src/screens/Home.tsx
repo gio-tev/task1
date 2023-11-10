@@ -1,7 +1,8 @@
 import {View, Text} from 'react-native';
-import React from 'react';
+import React, {FC} from 'react';
+import {ScreenProps} from '../navigators/StackNavigator';
 
-const Home = () => {
+const Home: FC<ScreenProps<'Home'>> = () => {
   return (
     <View>
       <Text>Home</Text>

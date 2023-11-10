@@ -1,14 +1,13 @@
 import React from 'react';
-import {SafeAreaView, Text} from 'react-native';
+import {SafeAreaView} from 'react-native';
+import StackNavigator from './src/navigators/StackNavigator';
 
 const App = (): JSX.Element => {
   return (
     <SafeAreaView>
-      <Text> hiii</Text>
+      <StackNavigator />
     </SafeAreaView>
   );
 };
-
-// const styles = StyleSheet.create({});
 
 export default App;

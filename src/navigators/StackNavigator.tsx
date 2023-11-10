@@ -1,17 +1,16 @@
 import {NavigationContainer} from '@react-navigation/native';
-import {RouteProp} from '@react-navigation/native';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {
+  NativeStackScreenProps,
+  createNativeStackNavigator,
+} from '@react-navigation/native-stack';
 import Home from '../screens/Home';
 
-export type ScreenProps = {
-  navigation: StackNavigationProp<RootStackParamList>;
-  route: RouteProp<RootStackParamList, keyof RootStackParamList>;
-};
+export type ScreenProps<T extends keyof RootStackParamList> =
+  NativeStackScreenProps<RootStackParamList, T>;
 
 type RootStackParamList = {
   Home: undefined;
-  Detail: {itemId: number};
+  // Detail: {itemId: number};
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
