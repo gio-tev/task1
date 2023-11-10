@@ -1,4 +1,3 @@
-import {NavigationContainer} from '@react-navigation/native';
 import {
   NativeStackScreenProps,
   createNativeStackNavigator,
@@ -17,11 +16,9 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function StackNavigator() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown: false}}>
-        <Stack.Screen name="Home" component={Home} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Screen name="Home" component={Home} />
+    </Stack.Navigator>
   );
 }
 

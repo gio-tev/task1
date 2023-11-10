@@ -1,13 +1,10 @@
-import {SafeAreaView} from 'react-native';
-import StackNavigator from './src/navigators/StackNavigator';
 import {PaperProvider} from 'react-native-paper';
+import Router from './src/navigators/Router';
 
 const App = (): JSX.Element => {
   return (
     <PaperProvider>
-      <SafeAreaView style={{flex: 1}}>
-        <StackNavigator />
-      </SafeAreaView>
+      <Router />
     </PaperProvider>
   );
 };
