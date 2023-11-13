@@ -3,23 +3,33 @@ import {
   createNativeStackNavigator,
 } from '@react-navigation/native-stack';
 import Home from '../screens/Home';
+import ImagePreview from '../screens/ImagePreview';
 
 export type ScreenProps<T extends keyof RootStackParamList> =
   NativeStackScreenProps<RootStackParamList, T>;
 
 type RootStackParamList = {
   Home: undefined;
-  // Detail: {itemId: number};
+  ImagePreview: {width: number; height: number};
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-function StackNavigator() {
+const StackNavigator = () => {
   return (
-    <Stack.Navigator screenOptions={{headerShown: false}}>
-      <Stack.Screen name="Home" component={Home} />
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Home"
+        component={Home}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="ImagePreview"
+        component={ImagePreview}
+        options={{headerTitle: ''}}
+      />
     </Stack.Navigator>
   );
-}
+};
 
 export default StackNavigator;

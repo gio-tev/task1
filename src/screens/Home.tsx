@@ -1,13 +1,19 @@
-import {FC, useState} from 'react';
-import {View, StyleSheet, SafeAreaView} from 'react-native';
-import {ScreenProps} from '../navigators/StackNavigator';
+import {useState} from 'react';
+import {View, StyleSheet} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {TextInput, Button} from 'react-native-paper';
+import {ScreenProps} from '../navigators/StackNavigator';
 
-const Home: FC<ScreenProps<'Home'>> = () => {
+const Home: React.FC<ScreenProps<'Home'>> = ({navigation}) => {
   const [width, setWidth] = useState('');
   const [height, setHeight] = useState('');
 
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    navigation.navigate('ImagePreview', {
+      width: Number(width),
+      height: Number(height),
+    });
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -25,6 +31,7 @@ const Home: FC<ScreenProps<'Home'>> = () => {
           label="Height"
           placeholder="Enter Height"
           onChangeText={setHeight}
+          keyboardType="numeric"
         />
 
         <Button
