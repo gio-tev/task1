@@ -1,64 +1,121 @@
-import {useState} from 'react';
-import {View, StyleSheet} from 'react-native';
+import React from 'react';
+import {View, StyleSheet, Text, GestureResponderEvent} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {TextInput, Button} from 'react-native-paper';
+import {TextInput, Button, useTheme} from 'react-native-paper';
+import {Formik} from 'formik';
+import * as yup from 'yup';
 import {ScreenProps} from '../navigators/StackNavigator';
 
-const Home: React.FC<ScreenProps<'Home'>> = ({navigation}) => {
-  const [width, setWidth] = useState('');
-  const [height, setHeight] = useState('');
+const inputValidation = yup
+  .string()
+  .required('Width is required')
+  .matches(/^[1-9]\d*$/, 'Width must be a positive number');
 
-  const handleSubmit = () => {
+const validationSchema = yup.object().shape({
+  width: inputValidation,
+  height: inputValidation,
+});
+
+const Home: React.FC<ScreenProps<'Home'>> = ({navigation}) => {
+  const {
+    colors: {error},
+  } = useTheme();
+
+  const styles = getStyles(error);
+
+  const handleSubmit = (values: {width: string; height: string}) => {
     navigation.navigate('ImagePreview', {
-      width: Number(width),
-      height: Number(height),
+      width: Number(values.width),
+      height: Number(values.height),
     });
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.innerContainer}>
-        <TextInput
-          mode="outlined"
-          label="Width"
-          placeholder="Enter Width"
-          onChangeText={setWidth}
-          keyboardType="numeric"
-        />
+      <Formik
+        initialValues={{width: '', height: ''}}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}>
+        {({
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          values,
+          errors,
+          touched,
+          dirty,
+        }) => {
+          return (
+            <View style={styles.innerContainer}>
+              <View style={styles.inputContainer}>
+                <TextInput
+                  mode="outlined"
+                  label="Width"
+                  placeholder="Enter Width"
+                  onChangeText={handleChange('width')}
+                  onBlur={handleBlur('width')}
+                  value={values.width}
+                  keyboardType="numeric"
+                  error={touched.width && !!errors.width}
+                />
+                {errors.width && (
+                  <Text style={styles.errorText}>{errors.width}</Text>
+                )}
+              </View>
 
-        <TextInput
-          mode="outlined"
-          label="Height"
-          placeholder="Enter Height"
-          onChangeText={setHeight}
-          keyboardType="numeric"
-        />
+              <View style={styles.inputContainer}>
+                <TextInput
+                  mode="outlined"
+                  label="Height"
+                  placeholder="Enter Height"
+                  onChangeText={handleChange('height')}
+                  onBlur={handleBlur('height')}
+                  value={values.height}
+                  keyboardType="numeric"
+                  error={touched.height && !!errors.height}
+                />
+                {errors.height && (
+                  <Text style={styles.errorText}>{errors.height}</Text>
+                )}
+              </View>
 
-        <Button
-          style={styles.button}
-          disabled={!width || !height}
-          mode="contained"
-          onPress={handleSubmit}>
-          Get Image
-        </Button>
-      </View>
+              <Button
+                style={styles.button}
+                disabled={!dirty || !!Object.values(error).length}
+                mode="contained"
+                onPress={() => handleSubmit()}>
+                Get Image
+              </Button>
+            </View>
+          );
+        }}
+      </Formik>
     </SafeAreaView>
   );
 };
 
 export default Home;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  innerContainer: {
-    flex: 1,
-    gap: 40,
-    paddingTop: '30%',
-    paddingHorizontal: 50,
-  },
-  button: {
-    paddingVertical: 10,
-  },
-});
+const getStyles = (color: string) => {
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    innerContainer: {
+      flex: 1,
+      gap: 40,
+      paddingTop: '30%',
+      paddingHorizontal: 50,
+    },
+    inputContainer: {
+      gap: 10,
+    },
+    errorText: {
+      color,
+      paddingLeft: 15,
+    },
+    button: {
+      paddingVertical: 10,
+    },
+  });
+};
